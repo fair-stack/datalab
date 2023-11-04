@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tool>
+  <name>IRISDatasets</name>
+  <version>0.2</version>
+  <author>admin</author>
+  <category>Reading data</category>
+  <description>Load the Iris test data.</description>
+  <requirements>
+    <requirement type="language" version="3.9.13">python3-debian</requirement>
+    <requirement type="package" version="1.5.2">pandas</requirement>
+    <requirement type="package" version="1.0.2">scikit-learn</requirement>
+  </requirements>
+  <executable_path></executable_path>
+  <entrypoint>/home/app/function</entrypoint>
+  <executable>main.py</executable>
+  <command>main</command>
+  <inputs>
+  </inputs>
+  <outputs>
+    <data name="df" type="object" label="dataframe" help=""/>
+  </outputs>
+  <test>
+    <inputs>
+      <param name="input_path">iris.csv</param>
+      <param name="output_path">KMeans</param>
+    </inputs>
+    <outputs>
+      <data name="output_path">KMeans</data>
+    </outputs>
+  </test>
+  <help>
+  </help>
+
+</tool>
+

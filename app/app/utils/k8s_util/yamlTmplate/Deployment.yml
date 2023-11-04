@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  pythondev
+spec:
+  selector:
+    matchLabels:
+      app:  pythondev
+  template:
+    metadata:
+      labels:
+        app:  pythondev
+    spec:
+      containers:
+        - name:  pythondev
+          image: 127.0.0.1:30443/datalab/python3.9:v1
+          command:
+            - /bin/sh
+            - '-ce'
+            - tail -f /dev/null
+          ports:
+            - containerPort: 2811

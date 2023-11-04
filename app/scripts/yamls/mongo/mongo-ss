@@ -1,0 +1,100 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongo
+  namespace: datalab
+spec:
+  serviceName: mongo
+  replicas: 3
+  selector:
+    matchLabels:
+      role: mongo
+      environment: test
+  template:
+    metadata:
+      labels:
+        role: mongo
+        environment: test
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: mongo
+          image: 'mongo:3.4'
+          command:
+            - mongod
+            - '--replSet'
+            - rs0
+            - '--bind_ip'
+            - 0.0.0.0
+            - '--smallfiles'
+            - '--noprealloc'
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: mongo-persistent-storage
+              mountPath: /data/db
+        - name: mongo-sidecar
+          image: cvallance/mongo-k8s-sidecar
+          env:
+            - name: MONGO_SIDECAR_POD_LABELS
+              value: 'role=mongo,environment=test'
+  volumeClaimTemplates:
+    - metadata:
+        name: mongo-persistent-storage
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 100Gi
+
+
+
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongo-persistent-storage-mongo-0
+  namespace: default
+  resourceVersion: '16005298'
+  labels:
+    environment: test
+    role: mongo
+
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Gi
+  storageClassName: managed-nfs-storage
+  volumeMode: Filesystem
+status:
+  phase: Pending
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-claim
+  namespace: default
+  resourceVersion: '110943'
+spec:
+  accessModes:
+    - ReadWriteMany
+    - ReadOnlyMany
+  resources:
+    requests:
+      storage: 500Gi
+  storageClassName: managed-nfs-storage
+  volumeMode: Filesystem
+  volumeName: pvc-7fecafef-d4c7-497b-b859-b5d3ebbfdb9d
+status:
+  accessModes:
+    - ReadWriteMany
+    - ReadOnlyMany
+  capacity:
+    storage: 500Gi
+  phase: Bound
+

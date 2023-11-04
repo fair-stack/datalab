@@ -1,0 +1,15 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: default-mongo-pvc
+  namespace: datalab
+  labels:
+    dir: default-mongo
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 500Mi
+  storageClassName: managed-nfs-storage
+  volumeMode: Filesystem

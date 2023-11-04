@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  noteapp1
+  namespace: labnote
+spec:
+  selector:
+    matchLabels:
+      app:  noteapp1
+  template:
+    metadata:
+      labels:
+        app:  noteapp1
+    spec:
+      containers:
+        - name:  labnote
+          image: 127.0.0.1:30443/datalab/jupyter:v1
+          command:
+            - /bin/sh
+            - '-ce'
+            - mkdir /work|python template.py 035dcc|/usr/local/python3/bin/jupyter lab --allow-root --ip 0.0.0.0 --NotebookApp.token=abcd |tail -f /dev/null
+          ports:
+            - containerPort: 8888

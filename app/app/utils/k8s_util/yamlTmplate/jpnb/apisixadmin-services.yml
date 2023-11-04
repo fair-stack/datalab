@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations: {}
+  name: apisixsvc
+  namespace: labnote
+spec:
+  ports:
+    - name: brqdzj
+      nodePort: 32766
+      port: 9080
+      protocol: TCP
+      targetPort: 9080
+    - name: pxhwqy
+      nodePort: 32767
+      port: 9180
+      protocol: TCP
+      targetPort: 9180
+  selector:
+    app: apisix
+  type: NodePort
+

@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfs-client-provisioner
+  labels:
+    app: nfs-client-provisioner
+  namespace: default
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: nfs-client-provisioner
+  template:
+    metadata:
+      labels:
+        app: nfs-client-provisioner
+    spec:
+      nodeName: k8s-master   #Set themasterNode run
+      tolerations:             #Setting the tolerancemasterNode taint
+      - key: node-role.kubernetes.io/master
+        operator: Equal
+        value: "true"
+      serviceAccountName: nfs-client-provisioner
+      containers:
+        - name: nfs-client-provisioner
+          image: registry.cn-hangzhou.aliyuncs.com/jiayu-kubernetes/nfs-subdir-external-provisioner:v4.0.0
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: nfs-client-root
+              mountPath: /persistentvolumes
+          env:
+            - name: PROVISIONER_NAME
+              value: k8s/nfs-subdir-external-provisioner
+            - name: NFS_SERVER
+              value: 127.0.0.1
+            - name: NFS_PATH
+              value: /data/nfs/k8s-nfs/nfs-provisioner
+      volumes:
+        - name: nfs-client-root
+          nfs:
+            server: 127.0.0.1  # NFS SERVER_IP
+            path: /data/nfs/k8s-nfs/nfs-provisioner

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tool>
+  <name>tograyscale</name>
+  <version>1.0.0</version>
+  <author>admin</author>
+
+  <category>Graphics</category>
+  <description>This component is used to convert normalPNGPicture3Channel conversion is a grayscale image converted to one channel,For use in some deep learning training.</description>
+
+  <requirements>
+    <requirement type="language" version="3.9.13">Python</requirement>
+    <requirement type="package" version="9.2.0">Pillow</requirement>
+  </requirements>
+
+
+  <!-- package Not required -->
+  <executable_path></executable_path>
+  <executable>handler.py</executable>
+
+  <!-- entrypoint and command There must be a，Can exist at the same time -->
+  <entrypoint>/home/app/function</entrypoint>
+  <command>main</command>
+
+  <inputs>
+    <param name="input_file" type="file" format="png" label="Original image" help="Need to be converted to grayscalePNGPicture"/>
+  </inputs>
+
+  <outputs>
+    <data name="output_file" type="file" format="png"/>
+  </outputs>
+
+  <test>
+    <inputs>
+      <param name="input_file">a.png</param>
+      <param name="output_file">c.png</param>
+    </inputs>
+    <outputs>
+      <data name="out_file">c.png</data>
+    </outputs>
+  </test>
+
+  <help>
+  Test examples
+</help>
+
+</tool>

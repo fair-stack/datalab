@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jp03
+  namespace: labnote
+spec:
+  selector:
+    matchLabels:
+      app: jp03
+  template:
+    metadata:
+      labels:
+        app: jp03
+    spec:
+      containers:
+      - command:
+        - /bin/sh
+        - -ce
+        - /usr/local/python3/bin/jupyter lab --allow-root --ip 0.0.0.0|tail -f /dev/null
+        image: 127.0.0.1:30443/datalab/notebook:v1
+        name: jp03
+        ports:
+        - containerPort: 8888

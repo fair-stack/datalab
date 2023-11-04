@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  asapp
+  namespace: labnote
+spec:
+  selector:
+    matchLabels:
+      app:  asapp
+  template:
+    metadata:
+      labels:
+        app:  asapp
+    spec:
+      containers:
+        - name:  asapp
+          image: 127.0.0.1:30443/datalab/apisix:v1
+          command:
+            - /bin/sh
+            - '-ce'
+            - /run.sh|tail -f /dev/null
+          ports:
+            - containerPort: 9080
+            - containerPort: 9180
