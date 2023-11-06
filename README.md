@@ -9,9 +9,11 @@ Quickstart
 =============================
 
 DataLab is cloud based, so it needs kubernetes 1.1+
+
 .. code:: console
 
-DataLab supports one-click installation via FairMan
+DataLab supports one-click installation via FairMan.
+
 Once DataLab has finished starting, you should be able to view DataLab in your browser: http://localhost:8080
 
 For more installation details please see: https://market.casdc.cn/DataLab
